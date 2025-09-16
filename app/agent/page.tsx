@@ -15,14 +15,18 @@ export default function AgentIntegration() {
   const [expandedStep, setExpandedStep] = useState(1);
   const [clusterOption, setClusterOption] = useState('existing');
   const [selectedCluster, setSelectedCluster] = useState('Cluster_name_1');
-  const [llmOption, setLlmOption] = useState('existing');
-  const [selectedModel, setSelectedModel] = useState('Model_1');
-  const [apiKeyId, setApiKeyId] = useState('7f3e2d1a-8b9c-4f7e-9a2d-1c3e4f5a6b7c');
-  const [apiKeyToken, setApiKeyToken] = useState('••••••••••••••••••••••••••••••••');
   const [embeddingOption, setEmbeddingOption] = useState('existing');
-  const [selectedEmbeddingModel, setSelectedEmbeddingModel] = useState('Embedding_Model_1');
+  const [selectedEmbeddingModel, setSelectedEmbeddingModel] = useState('nvidia/nv-embedqa-e5-v5');
   const [embeddingApiKeyId, setEmbeddingApiKeyId] = useState('8g4f3e2d-9c8b-5g8f-ab3e-2d4f6g7h8i9j');
   const [embeddingApiKeyToken, setEmbeddingApiKeyToken] = useState('••••••••••••••••••••••••••••••••');
+  const [llmOption, setLlmOption] = useState('existing');
+  const [selectedModel, setSelectedModel] = useState('deepseek-ai/deepseek-r1');
+  const [apiKeyId, setApiKeyId] = useState('7f3e2d1a-8b9c-4f7e-9a2d-1c3e4f5a6b7c');
+  const [apiKeyToken, setApiKeyToken] = useState('••••••••••••••••••••••••••••••••');
+  const [openaiModel, setOpenaiModel] = useState('gpt-4');
+  const [openaiApiKey, setOpenaiApiKey] = useState('');
+  const [arizeSpaceId, setArizeSpaceId] = useState('');
+  const [arizeApiKey, setArizeApiKey] = useState('');
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
   const toggleStep = (stepNumber: number) => {
@@ -41,7 +45,7 @@ export default function AgentIntegration() {
 
   const advanceToNextStep = (currentStep: number) => {
     const nextStep = currentStep + 1;
-    if (nextStep <= 6) { // Maximum step number
+    if (nextStep <= 7) { // Maximum step number
       setExpandedStep(nextStep);
     }
   };
@@ -197,145 +201,15 @@ export default function AgentIntegration() {
               )}
             </ConfigurationStep>
 
-            {/* Step 2: Large Language Model */}
+            {/* Step 2: Embedding Model */}
             <ConfigurationStep
               stepNumber={2}
-              title="Large Language Model (LLM)"
+              title="Embedding Model"
               isExpanded={expandedStep === 2}
               isCompleted={completedSteps.includes(2)}
               onToggle={() => toggleStep(2)}
               onComplete={() => markStepComplete(2)}
               onAdvanceToNext={() => advanceToNextStep(2)}
-            >
-              {/* 3-Column Model Options */}
-              <RadioGroup
-                value={llmOption}
-                onValueChange={setLlmOption}
-                className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6"
-              >
-                <Card className="cursor-pointer border-2 hover:border-gray-300 transition-colors">
-                  <CardContent className="p-4">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <RadioGroupItem value="deploy" id="deploy" />
-                      <label htmlFor="deploy" className="font-medium text-gray-900 cursor-pointer">
-                        Deploy New Model
-                      </label>
-                    </div>
-                    <p className="text-gray-600 text-sm">With preconfigured settings</p>
-                  </CardContent>
-                </Card>
-
-                <Card className={`cursor-pointer border-2 transition-colors ${llmOption === 'existing' ? 'border-blue-500 bg-blue-50' : 'hover:border-gray-300'}`}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <RadioGroupItem value="existing" id="existing-model" />
-                      <label htmlFor="existing-model" className="font-medium text-gray-900 cursor-pointer">
-                        Use Existing Models
-                      </label>
-                    </div>
-                    <p className="text-gray-600 text-sm">Select from existing models</p>
-                  </CardContent>
-                </Card>
-
-                <Card className="cursor-pointer border-2 hover:border-gray-300 transition-colors">
-                  <CardContent className="p-4">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <RadioGroupItem value="external" id="external" />
-                      <label htmlFor="external" className="font-medium text-gray-900 cursor-pointer">
-                        External Model
-                      </label>
-                    </div>
-                    <p className="text-gray-600 text-sm">To use your own model</p>
-                  </CardContent>
-                </Card>
-              </RadioGroup>
-
-              {/* Model Configuration for Existing Models */}
-              {llmOption === 'existing' && (
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Model</label>
-                    <Select value={selectedModel} onValueChange={setSelectedModel}>
-                      <SelectTrigger className="w-full max-w-xs">
-                        <SelectValue placeholder="Select a model" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Model_1">Model_1</SelectItem>
-                        <SelectItem value="Model_2">Model_2</SelectItem>
-                        <SelectItem value="Model_3">Model_3</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {/* API Key Inputs */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">API Key ID*</label>
-                      <Input
-                        type="text"
-                        value={apiKeyId}
-                        onChange={(e) => setApiKeyId(e.target.value)}
-                        placeholder="Enter API Key ID"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">API Key Token*</label>
-                      <Input
-                        type="password"
-                        value={apiKeyToken}
-                        onChange={(e) => setApiKeyToken(e.target.value)}
-                        placeholder="Enter API Key Token"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Upload Credentials File */}
-                  <div>
-                    <Button variant="outline" className="text-blue-600 border-blue-200 hover:bg-blue-50">
-                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                      </svg>
-                      Upload .txt credentials file
-                    </Button>
-                  </div>
-
-                  {/* Model Details and Connection Information */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-medium mb-3 text-gray-900">Model Details</h4>
-                      <div className="space-y-2 text-sm text-gray-600">
-                        <div>Name: {selectedModel}</div>
-                        <div>Compute: Medium | 2 x 4vCPUs, 64GB GPU</div>
-                        <div>Region: AWS | NA. East</div>
-                      </div>
-                      <div className="mt-3">
-                        <span className="text-sm text-gray-600">Update model configuration? </span>
-                        <Button variant="link" className="p-0 h-auto text-blue-600 text-sm">
-                          Edit
-                        </Button>
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="font-medium mb-3 text-gray-900">Connection Information</h4>
-                      <div className="space-y-2 text-sm text-gray-600">
-                        <div>Endpoint: https://model.capella.llm</div>
-                        <div className="break-all">API Key: f3e2d1a-8b9c-4f7e-9a2d-1c3e4f5a6b7c</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </ConfigurationStep>
-
-            {/* Step 3: Embedding Model */}
-            <ConfigurationStep
-              stepNumber={3}
-              title="Embedding Model"
-              isExpanded={expandedStep === 3}
-              isCompleted={completedSteps.includes(3)}
-              onToggle={() => toggleStep(3)}
-              onComplete={() => markStepComplete(3)}
-              onAdvanceToNext={() => advanceToNextStep(3)}
             >
               {/* 3-Column Embedding Model Options */}
               <RadioGroup
@@ -390,9 +264,13 @@ export default function AgentIntegration() {
                         <SelectValue placeholder="Select an embedding model" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Embedding_Model_1">Embedding_Model_1</SelectItem>
-                        <SelectItem value="Embedding_Model_2">Embedding_Model_2</SelectItem>
-                        <SelectItem value="Embedding_Model_3">Embedding_Model_3</SelectItem>
+                        <SelectItem value="nvidia/nv-embedqa-e5-v5">NVIDIA NV-EmbedQA E5 V5 ⭐⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="Snowflake/snowflake-arctic-embed-l-v2.0">Snowflake Arctic Embed L v2.0 ⭐⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="nvidia/nv-embedqa-mistral-7b-v2">NVIDIA NV-EmbedQA Mistral 7B v2 ⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="intfloat/e5-mistral-7b-instruct">E5 Mistral 7B Instruct ⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="nvidia/llama-3.2-nv-embedqa-1b-v2">NVIDIA Llama 3.2 NV-EmbedQA 1B v2 ⭐⭐⭐</SelectItem>
+                        <SelectItem value="snowflake/arctic-embed-l">Snowflake Arctic Embed L ⭐⭐⭐</SelectItem>
+                        <SelectItem value="Snowflake/snowflake-arctic-embed-m-v2.0">Snowflake Arctic Embed M v2.0 ⭐⭐⭐</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -435,7 +313,7 @@ export default function AgentIntegration() {
                       <h4 className="font-medium mb-3 text-gray-900">Embedding Model Details</h4>
                       <div className="space-y-2 text-sm text-gray-600">
                         <div>Name: {selectedEmbeddingModel}</div>
-                        <div>Compute: Small | 1 x 2vCPUs, 16GB GPU</div>
+                        <div>Compute: Small | 4vCPU, 48GB GPU</div>
                         <div>Region: AWS | NA. East</div>
                       </div>
                       <div className="mt-3">
@@ -457,41 +335,262 @@ export default function AgentIntegration() {
               )}
             </ConfigurationStep>
 
-            {/* Step 4: Agent Catalog */}
+            {/* Step 3: Large Language Model */}
+            <ConfigurationStep
+              stepNumber={3}
+              title="Large Language Model (LLM)"
+              isExpanded={expandedStep === 3}
+              isCompleted={completedSteps.includes(3)}
+              onToggle={() => toggleStep(3)}
+              onComplete={() => markStepComplete(3)}
+              onAdvanceToNext={() => advanceToNextStep(3)}
+            >
+              {/* 3-Column Model Options */}
+              <RadioGroup
+                value={llmOption}
+                onValueChange={setLlmOption}
+                className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6"
+              >
+                <Card className="cursor-pointer border-2 hover:border-gray-300 transition-colors">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <RadioGroupItem value="deploy" id="deploy" />
+                      <label htmlFor="deploy" className="font-medium text-gray-900 cursor-pointer">
+                        Deploy New Model
+                      </label>
+                    </div>
+                    <p className="text-gray-600 text-sm">With preconfigured settings</p>
+                  </CardContent>
+                </Card>
+
+                <Card className={`cursor-pointer border-2 transition-colors ${llmOption === 'existing' ? 'border-blue-500 bg-blue-50' : 'hover:border-gray-300'}`}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <RadioGroupItem value="existing" id="existing-model" />
+                      <label htmlFor="existing-model" className="font-medium text-gray-900 cursor-pointer">
+                        Use Existing Models
+                      </label>
+                    </div>
+                    <p className="text-gray-600 text-sm">Select from existing models</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="cursor-pointer border-2 hover:border-gray-300 transition-colors">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <RadioGroupItem value="external" id="external" />
+                      <label htmlFor="external" className="font-medium text-gray-900 cursor-pointer">
+                        External Model
+                      </label>
+                    </div>
+                    <p className="text-gray-600 text-sm">To use your own model</p>
+                  </CardContent>
+                </Card>
+              </RadioGroup>
+
+              {/* Model Configuration for Existing Models */}
+              {llmOption === 'existing' && (
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Model</label>
+                    <Select value={selectedModel} onValueChange={setSelectedModel}>
+                      <SelectTrigger className="w-full max-w-xs">
+                        <SelectValue placeholder="Select a model" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="deepseek-ai/deepseek-r1">DeepSeek R1 ⭐⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="mistralai/mixtral-8x22b-instruct-v01">Mixtral 8x22B Instruct ⭐⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="meta/llama3-70b-instruct">Llama 3 70B Instruct ⭐⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="deepseek-ai/deepseek-r1-distill-qwen-32b">DeepSeek R1 Distill Qwen 32B ⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="nv-mistralai/mistral-nemo-12b-instruct">Mistral Nemo 12B Instruct ⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="deepseek-ai/deepseek-r1-distill-llama-8b">DeepSeek R1 Distill Llama 8B ⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="meta-llama/Llama-3.1-8B-Instruct">Llama 3.1 8B Instruct ⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="mistralai/mistral-7b-instruct-v0.3">Mistral 7B Instruct v0.3 ⭐⭐⭐</SelectItem>
+                        <SelectItem value="meta/llama-3.2-3b-instruct">Llama 3.2 3B Instruct ⭐⭐⭐</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* API Key Inputs */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">API Key ID*</label>
+                      <Input
+                        type="text"
+                        value={apiKeyId}
+                        onChange={(e) => setApiKeyId(e.target.value)}
+                        placeholder="Enter API Key ID"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">API Key Token*</label>
+                      <Input
+                        type="password"
+                        value={apiKeyToken}
+                        onChange={(e) => setApiKeyToken(e.target.value)}
+                        placeholder="Enter API Key Token"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Upload Credentials File */}
+                  <div>
+                    <Button variant="outline" className="text-blue-600 border-blue-200 hover:bg-blue-50">
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      Upload .txt credentials file
+                    </Button>
+                  </div>
+
+                  {/* Model Details and Connection Information */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-medium mb-3 text-gray-900">Model Details</h4>
+                      <div className="space-y-2 text-sm text-gray-600">
+                        <div>Name: {selectedModel}</div>
+                        <div>Compute: Medium | 48vCPU, 192GB GPU</div>
+                        <div>Region: AWS | NA. East</div>
+                      </div>
+                      <div className="mt-3">
+                        <span className="text-sm text-gray-600">Update model configuration? </span>
+                        <Button variant="link" className="p-0 h-auto text-blue-600 text-sm">
+                          Edit
+                        </Button>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-3 text-gray-900">Connection Information</h4>
+                      <div className="space-y-2 text-sm text-gray-600">
+                        <div>Endpoint: https://model.capella.llm</div>
+                        <div className="break-all">API Key: f3e2d1a-8b9c-4f7e-9a2d-1c3e4f5a6b7c</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </ConfigurationStep>
+
+            {/* Step 4: OpenAI & Arize Configuration */}
             <ConfigurationStep
               stepNumber={4}
-              title="Agent Catalog"
+              title="OpenAI & Arize Configuration"
               isExpanded={expandedStep === 4}
               isCompleted={completedSteps.includes(4)}
               onToggle={() => toggleStep(4)}
               onComplete={() => markStepComplete(4)}
               onAdvanceToNext={() => advanceToNextStep(4)}
             >
-              <p className="text-gray-700 text-sm mb-6">Set up your agent catalog configuration and deployment settings.</p>
+              <div className="space-y-6">
+                {/* OpenAI Configuration */}
+                <div>
+                  <h4 className="font-medium mb-4 text-gray-900">OpenAI Configuration</h4>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">OpenAI Model</label>
+                      <Select value={openaiModel} onValueChange={setOpenaiModel}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select OpenAI model" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="gpt-4">GPT-4</SelectItem>
+                          <SelectItem value="gpt-4-turbo">GPT-4 Turbo</SelectItem>
+                          <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">OpenAI API Key*</label>
+                      <Input
+                        type="password"
+                        value={openaiApiKey}
+                        onChange={(e) => setOpenaiApiKey(e.target.value)}
+                        placeholder="Enter your OpenAI API key"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <hr className="border-gray-200" />
+
+                {/* Arize Configuration */}
+                <div>
+                  <h4 className="font-medium mb-4 text-gray-900">Arize Phoenix Configuration</h4>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Arize Space ID*</label>
+                      <Input
+                        type="text"
+                        value={arizeSpaceId}
+                        onChange={(e) => setArizeSpaceId(e.target.value)}
+                        placeholder="Enter your Arize Space ID"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Arize API Key*</label>
+                      <Input
+                        type="password"
+                        value={arizeApiKey}
+                        onChange={(e) => setArizeApiKey(e.target.value)}
+                        placeholder="Enter your Arize API key"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Optional Configuration Note */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div>
+                      <p className="text-sm font-medium text-blue-900 mb-1">Optional Configuration</p>
+                      <p className="text-sm text-blue-700">
+                        These configurations are optional. OpenAI can be used as a fallback LLM, and Arize Phoenix provides monitoring and observability for your agent applications.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </ConfigurationStep>
 
-            {/* Step 5: Tools & Prompts */}
+            {/* Step 5: Agent Catalog */}
             <ConfigurationStep
               stepNumber={5}
-              title="Tools & Prompts"
+              title="Agent Catalog"
               isExpanded={expandedStep === 5}
               isCompleted={completedSteps.includes(5)}
               onToggle={() => toggleStep(5)}
               onComplete={() => markStepComplete(5)}
               onAdvanceToNext={() => advanceToNextStep(5)}
             >
-              <p className="text-gray-700 text-sm mb-6">Configure tools and prompts for your agent applications.</p>
+              <p className="text-gray-700 text-sm mb-6">Set up your agent catalog configuration and deployment settings.</p>
             </ConfigurationStep>
 
-            {/* Step 6: Summary */}
+            {/* Step 6: Tools & Prompts */}
             <ConfigurationStep
               stepNumber={6}
-              title="Summary"
+              title="Tools & Prompts"
               isExpanded={expandedStep === 6}
               isCompleted={completedSteps.includes(6)}
               onToggle={() => toggleStep(6)}
               onComplete={() => markStepComplete(6)}
               onAdvanceToNext={() => advanceToNextStep(6)}
+            >
+              <p className="text-gray-700 text-sm mb-6">Configure tools and prompts for your agent applications.</p>
+            </ConfigurationStep>
+
+            {/* Step 7: Summary */}
+            <ConfigurationStep
+              stepNumber={7}
+              title="Summary"
+              isExpanded={expandedStep === 7}
+              isCompleted={completedSteps.includes(7)}
+              onToggle={() => toggleStep(7)}
+              onComplete={() => markStepComplete(7)}
+              onAdvanceToNext={() => advanceToNextStep(7)}
             >
               <div className="space-y-6">
                 <p className="text-gray-700 text-sm">Review your configuration and download the generated .env file with all your settings.</p>
@@ -507,11 +606,19 @@ export default function AgentIntegration() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">LLM Model:</span>
-                        <span className="text-gray-900">{selectedModel}</span>
+                        <span className="text-gray-900 text-right">{selectedModel.split('/').pop()?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || selectedModel}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">Embedding Model:</span>
-                        <span className="text-gray-900">{selectedEmbeddingModel}</span>
+                        <span className="text-gray-900 text-right">{selectedEmbeddingModel.split('/').pop()?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || selectedEmbeddingModel}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">OpenAI Model:</span>
+                        <span className="text-gray-900">{openaiModel}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Arize Integration:</span>
+                        <span className="text-gray-900">{arizeSpaceId ? 'Configured' : 'Not configured'}</span>
                       </div>
                     </div>
                   </div>
@@ -522,6 +629,8 @@ export default function AgentIntegration() {
                       <div>✓ Environment configuration (.env)</div>
                       <div>✓ API credentials setup</div>
                       <div>✓ Connection strings</div>
+                      <div>✓ OpenAI integration</div>
+                      <div>✓ Arize monitoring setup</div>
                     </div>
                   </div>
                 </div>
@@ -550,8 +659,8 @@ CAPELLA_API_EMBEDDINGS_KEY=${embeddingApiKeyId}
 CAPELLA_API_EMBEDDING_MAX_TOKENS=1024
 
 # OpenAI Configuration (if using external models)
-OPENAI_MODEL=gpt-4
-OPENAI_API_KEY=your_openai_api_key
+OPENAI_MODEL=${openaiModel}
+OPENAI_API_KEY=${openaiApiKey || 'your_openai_api_key'}
 
 # Agent Catalog Configuration
 AGENT_CATALOG_CONN_STRING=https://${selectedCluster.toLowerCase()}.capella.ai
@@ -560,8 +669,8 @@ AGENT_CATALOG_PASSWORD=your_catalog_password
 AGENT_CATALOG_BUCKET=agent_catalog
 
 # Arize Configuration (for monitoring)
-ARIZE_SPACE_ID=your_arize_space_id
-ARIZE_API_KEY=your_arize_api_key
+ARIZE_SPACE_ID=${arizeSpaceId || 'your_arize_space_id'}
+ARIZE_API_KEY=${arizeApiKey || 'your_arize_api_key'}
 
 # Additional Configuration
 TOKENIZERS_PARALLELISM=false`}</pre>
@@ -594,8 +703,8 @@ CAPELLA_API_EMBEDDINGS_KEY=${embeddingApiKeyId}
 CAPELLA_API_EMBEDDING_MAX_TOKENS=1024
 
 # OpenAI Configuration (if using external models)
-OPENAI_MODEL=gpt-4
-OPENAI_API_KEY=your_openai_api_key
+OPENAI_MODEL=${openaiModel}
+OPENAI_API_KEY=${openaiApiKey || 'your_openai_api_key'}
 
 # Agent Catalog Configuration
 AGENT_CATALOG_CONN_STRING=https://${selectedCluster.toLowerCase()}.capella.ai
@@ -604,8 +713,8 @@ AGENT_CATALOG_PASSWORD=your_catalog_password
 AGENT_CATALOG_BUCKET=agent_catalog
 
 # Arize Configuration (for monitoring)
-ARIZE_SPACE_ID=your_arize_space_id
-ARIZE_API_KEY=your_arize_api_key
+ARIZE_SPACE_ID=${arizeSpaceId || 'your_arize_space_id'}
+ARIZE_API_KEY=${arizeApiKey || 'your_arize_api_key'}
 
 # Additional Configuration
 TOKENIZERS_PARALLELISM=false`;
