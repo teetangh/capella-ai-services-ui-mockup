@@ -264,13 +264,13 @@ export default function AgentIntegration() {
                         <SelectValue placeholder="Select an embedding model" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="nvidia/nv-embedqa-e5-v5">NVIDIA NV-EmbedQA E5 V5 ⭐⭐⭐⭐⭐</SelectItem>
-                        <SelectItem value="Snowflake/snowflake-arctic-embed-l-v2.0">Snowflake Arctic Embed L v2.0 ⭐⭐⭐⭐⭐</SelectItem>
-                        <SelectItem value="nvidia/nv-embedqa-mistral-7b-v2">NVIDIA NV-EmbedQA Mistral 7B v2 ⭐⭐⭐⭐</SelectItem>
-                        <SelectItem value="intfloat/e5-mistral-7b-instruct">E5 Mistral 7B Instruct ⭐⭐⭐⭐</SelectItem>
-                        <SelectItem value="nvidia/llama-3.2-nv-embedqa-1b-v2">NVIDIA Llama 3.2 NV-EmbedQA 1B v2 ⭐⭐⭐</SelectItem>
-                        <SelectItem value="snowflake/arctic-embed-l">Snowflake Arctic Embed L ⭐⭐⭐</SelectItem>
-                        <SelectItem value="Snowflake/snowflake-arctic-embed-m-v2.0">Snowflake Arctic Embed M v2.0 ⭐⭐⭐</SelectItem>
+                        <SelectItem value="nvidia/nv-embedqa-e5-v5">NVIDIA NV-EmbedQA E5 V5</SelectItem>
+                        <SelectItem value="Snowflake/snowflake-arctic-embed-l-v2.0">Snowflake Arctic Embed L v2.0</SelectItem>
+                        <SelectItem value="nvidia/nv-embedqa-mistral-7b-v2">NVIDIA NV-EmbedQA Mistral 7B v2</SelectItem>
+                        <SelectItem value="intfloat/e5-mistral-7b-instruct">E5 Mistral 7B Instruct</SelectItem>
+                        <SelectItem value="nvidia/llama-3.2-nv-embedqa-1b-v2">NVIDIA Llama 3.2 NV-EmbedQA 1B v2</SelectItem>
+                        <SelectItem value="snowflake/arctic-embed-l">Snowflake Arctic Embed L</SelectItem>
+                        <SelectItem value="Snowflake/snowflake-arctic-embed-m-v2.0">Snowflake Arctic Embed M v2.0</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -398,15 +398,15 @@ export default function AgentIntegration() {
                         <SelectValue placeholder="Select a model" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="deepseek-ai/deepseek-r1">DeepSeek R1 ⭐⭐⭐⭐⭐</SelectItem>
-                        <SelectItem value="mistralai/mixtral-8x22b-instruct-v01">Mixtral 8x22B Instruct ⭐⭐⭐⭐⭐</SelectItem>
-                        <SelectItem value="meta/llama3-70b-instruct">Llama 3 70B Instruct ⭐⭐⭐⭐⭐</SelectItem>
-                        <SelectItem value="deepseek-ai/deepseek-r1-distill-qwen-32b">DeepSeek R1 Distill Qwen 32B ⭐⭐⭐⭐</SelectItem>
-                        <SelectItem value="nv-mistralai/mistral-nemo-12b-instruct">Mistral Nemo 12B Instruct ⭐⭐⭐⭐</SelectItem>
-                        <SelectItem value="deepseek-ai/deepseek-r1-distill-llama-8b">DeepSeek R1 Distill Llama 8B ⭐⭐⭐⭐</SelectItem>
-                        <SelectItem value="meta-llama/Llama-3.1-8B-Instruct">Llama 3.1 8B Instruct ⭐⭐⭐⭐</SelectItem>
-                        <SelectItem value="mistralai/mistral-7b-instruct-v0.3">Mistral 7B Instruct v0.3 ⭐⭐⭐</SelectItem>
-                        <SelectItem value="meta/llama-3.2-3b-instruct">Llama 3.2 3B Instruct ⭐⭐⭐</SelectItem>
+                        <SelectItem value="deepseek-ai/deepseek-r1">DeepSeek R1</SelectItem>
+                        <SelectItem value="mistralai/mixtral-8x22b-instruct-v01">Mixtral 8x22B Instruct</SelectItem>
+                        <SelectItem value="meta/llama3-70b-instruct">Llama 3 70B Instruct</SelectItem>
+                        <SelectItem value="deepseek-ai/deepseek-r1-distill-qwen-32b">DeepSeek R1 Distill Qwen 32B</SelectItem>
+                        <SelectItem value="nv-mistralai/mistral-nemo-12b-instruct">Mistral Nemo 12B Instruct</SelectItem>
+                        <SelectItem value="deepseek-ai/deepseek-r1-distill-llama-8b">DeepSeek R1 Distill Llama 8B</SelectItem>
+                        <SelectItem value="meta-llama/Llama-3.1-8B-Instruct">Llama 3.1 8B Instruct</SelectItem>
+                        <SelectItem value="mistralai/mistral-7b-instruct-v0.3">Mistral 7B Instruct v0.3</SelectItem>
+                        <SelectItem value="meta/llama-3.2-3b-instruct">Llama 3.2 3B Instruct</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
